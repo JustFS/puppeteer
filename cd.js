@@ -3,10 +3,10 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const url =
-  "https://www.cdiscount.com/informatique/ordinateurs-pc-portables/apple-13-3-macbook-air-2020-puce-apple-m1/f-1070992-mgn73fna.html#mpos=0|cd";
+  "https://www.cdiscount.com/informatique/achat-pc-ordinateur/megaport-pc-gamer-amd-ryzen-9-3900x-12x-3-8-ghz/f-1070853-meg4260568826719.html#mpos=0|mp";
 
 (async () => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.goto(url, { waitUntil: "networkidle2" });
 
@@ -26,16 +26,17 @@ const url =
   //   path: "image.png",
   // });
 
-  // get body
+  // get <body>
   // let bodyHTML = await page.evaluate(() => document.body.innerHTML);
   // console.log(bodyHTML);
 
   let data = await page.evaluate(() => {
     return document.querySelector("span[itemprop=price]").innerText;
   });
+  console.log("Le prix est de " + data);
   let newData = await data.substring(0, 4);
 
-  if (parseInt(newData) < 1400) {
+  if (parseInt(newData) < 2400) {
     sendNotification(newData);
   }
 
@@ -50,10 +51,10 @@ const url =
 
     let info = await transporter
       .sendMail({
-        from: '"Mac Discount" <julien.azbrg@gmail.com>',
-        to: "julien.azbrg@gmail.com",
+        from: '"PC Cdiscount" <julien.azbrg@gmail.com>',
+        to: "fromscratch.frontdev@gmail.com",
         subject: "Prix sous les " + price + "€",
-        html: "Le prixe est tombé sous les " + price + "€",
+        html: "Le prix de la tour est de " + price + "€",
       })
       .then(() => console.log("Message envoyé"));
   }
