@@ -1,6 +1,6 @@
 Au démarrage `npm i`
 
-Remplir .env avec ses propres MDP
+Créer un fichier `.env` avec ses propres MDP
 
-MAIL_PASS=monmdp
-INSTA_PASS=monmdp
+`MAIL_PASS=monmdp`
+`INSTA_PASS=monmdp`
